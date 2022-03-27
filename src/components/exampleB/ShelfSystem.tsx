@@ -79,6 +79,22 @@ const ShelfSystem: FC = () => {
     [items, shelves]
   );
 
+  const handleDelete = useCallback(
+    (index: number) => {
+      let newShelves = [...shelves];
+
+      const updatedItem: ShelfType = {
+        accepts: ['blue', 'green'],
+        droppedItem: null,
+      };
+
+      newShelves.splice(index, 1, updatedItem);
+
+      setShelves(newShelves);
+    },
+    [shelves]
+  );
+
   return (
     <div style={{ display: 'flex', gap: '2rem' }}>
       <div
@@ -95,6 +111,7 @@ const ShelfSystem: FC = () => {
             accept={item.accepts}
             droppedItem={item.droppedItem}
             onDrop={item => handleDrop(index, item)}
+            onDelete={() => handleDelete(index)}
           />
         ))}
       </div>

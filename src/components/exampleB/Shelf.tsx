@@ -15,9 +15,10 @@ interface ShelfProps {
   accept: string[];
   droppedItem: ShelfItemType | null;
   onDrop: (item: any) => void;
+  onDelete: () => void;
 }
 
-const Shelf: FC<ShelfProps> = ({ accept, droppedItem, onDrop }) => {
+const Shelf: FC<ShelfProps> = ({ accept, droppedItem, onDrop, onDelete }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept,
     drop: onDrop,
@@ -53,9 +54,16 @@ const Shelf: FC<ShelfProps> = ({ accept, droppedItem, onDrop }) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            // paddingLeft: '1rem',
           }}
         >
-          {droppedItem?.name}
+          <span style={{ marginLeft: '8px' }}>{droppedItem?.name}</span>
+          <button
+            onClick={onDelete}
+            style={{ color: 'red', marginLeft: 'auto', marginRight: '8px' }}
+          >
+            X
+          </button>
         </div>
       )}
     </div>
