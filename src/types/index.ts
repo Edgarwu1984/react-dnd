@@ -17,8 +17,10 @@ export interface Container {
 }
 
 export interface ShelfType {
+  id: string;
   accepts: string[];
   droppedItem: ShelfItemType | null;
+  type: string;
 }
 
 export interface ShelfItemType {

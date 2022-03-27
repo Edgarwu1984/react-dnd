@@ -1,34 +1,45 @@
-import React, { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { ShelfItemType, ShelfType } from '../../types';
-import update from 'immutability-helper';
 import Shelf from './Shelf';
 import ShelfItem from './ShelfItem';
 
 const ShelfSystem: FC = () => {
   const initialShelves: ShelfType[] = [
     {
+      id: '1',
       accepts: ['blue', 'green'],
       droppedItem: null,
+      type: 'blue',
     },
     {
+      id: '2',
       accepts: ['blue', 'green'],
       droppedItem: null,
+      type: 'blue',
     },
     {
+      id: '3',
       accepts: ['blue', 'green'],
       droppedItem: null,
+      type: 'blue',
     },
     {
+      id: '4',
       accepts: ['blue', 'green'],
       droppedItem: null,
+      type: 'blue',
     },
     {
+      id: '5',
       accepts: ['blue', 'green'],
       droppedItem: null,
+      type: 'blue',
     },
     {
+      id: '6',
       accepts: ['blue', 'green'],
       droppedItem: null,
+      type: 'blue',
     },
   ];
 
@@ -84,8 +95,10 @@ const ShelfSystem: FC = () => {
       let newShelves = [...shelves];
 
       const updatedItem: ShelfType = {
+        id: String(index),
         accepts: ['blue', 'green'],
         droppedItem: null,
+        type: 'blue',
       };
 
       newShelves.splice(index, 1, updatedItem);
@@ -94,6 +107,17 @@ const ShelfSystem: FC = () => {
     },
     [shelves]
   );
+
+  const handleMove = (dragIndex: number, hoverIndex: number) => {
+    let newShelves = [...shelves];
+    const dragItem = newShelves.find((_, i) => i === dragIndex);
+    const targetItem = newShelves.find((_, i) => i === hoverIndex);
+
+    dragItem !== undefined && newShelves.splice(hoverIndex, 1, dragItem);
+    targetItem !== undefined && newShelves.splice(dragIndex, 1, targetItem);
+
+    setShelves(newShelves);
+  };
 
   return (
     <div style={{ display: 'flex', gap: '2rem' }}>
@@ -108,10 +132,14 @@ const ShelfSystem: FC = () => {
         {shelves.map((item, index) => (
           <Shelf
             key={index}
+            index={index}
+            id={item.id}
             accept={item.accepts}
             droppedItem={item.droppedItem}
             onDrop={item => handleDrop(index, item)}
             onDelete={() => handleDelete(index)}
+            moveShelf={handleMove}
+            type={item.type}
           />
         ))}
       </div>
